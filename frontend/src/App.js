@@ -20,7 +20,7 @@ function Dashboard() {
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/reviews/hostaway')
+    fetch('https://the-flex-reviews-project-backend.onrender.com/api/reviews/hostaway')
       .then(res => res.json())
       .then(data => {
         // The backend always returns properly formatted data
@@ -35,7 +35,7 @@ function Dashboard() {
   }, []);
 
   const handleApprovalChange = async (id, approved) => {
-    const response = await fetch(`http://localhost:3001/api/reviews/approve/${id}`, {
+    const response = await fetch(`https://the-flex-reviews-project-backend.onrender.com/api/reviews/approve/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ approved })
