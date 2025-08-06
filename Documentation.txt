@@ -1,0 +1,119 @@
+# Flex Living Reviews Dashboard Documentation
+
+Technical Deliverables
+Source Code: Complete frontend (React) and backend (Node.js) implementation
+Running Version: Local development setup instructions below
+API Documentation: Endpoint specifications and behaviors
+
+Technology Stack
+Component	Technology
+Frontend	React 18, Material UI 5, Recharts
+Backend	Node.js 16, Express 4
+Data Management	MUI DataGrid, Axios
+Visualization	Recharts
+
+Local Setup Instructions
+Backend Setup
+bash
+cd backend
+npm install
+npm start
+Runs on http://localhost:3001
+Requires Hostaway API credentials in .env
+
+Frontend Setup
+bash
+cd frontend
+npm install
+npm start
+Runs on http://localhost:3000
+Automatically connects to backend
+
+Key Architecture Decisions
+Data Flow Design
+
+Unified Normalization:
+javascript
+// Example normalization in server.js
+function normalizeReviews(reviews) {
+  return reviews.map(review => ({
+    // Standardized fields
+    id: review.id,
+    rating: calculateAverageRating(review.categories),
+    // ...
+  }));
+}
+Responsive UI Patterns:
+Tab-based navigation for different views
+Mobile-first grid layouts
+Consistent theming using Material UI
+Public reviews page matches the styling of the real The Flex property information boxes
+
+API Implementation
+Endpoint	Method	Description
+/api/reviews/hostaway	GET	Fetch all normalized reviews
+/api/reviews/approve/:id	POST	Toggle review approval status
+
+Data Handling Approach
+
+1. API Integration:
+   - Implemented OAuth2 client credentials flow
+   - Successfully connects to Hostaway API
+   - Handles token refresh automatically
+
+2. Mock Data Strategy:
+   - As noted in requirements, sandbox API contains no reviews
+   - Created comprehensive mock dataset based on:
+     - The single API response example provided
+     - Additional realistic review scenarios
+   - Mock data demonstrates all required features:
+     - Multiple properties
+     - Different review types
+     - Various ratings and categories
+     - Date ranges
+
+3. Fallback Behavior:
+   - Attempts real API first
+   - Falls back to mock data if:
+     - API returns empty result (sandbox)
+     - API request fails
+     - Authentication fails
+
+Google Reviews Integration Analysis
+Technical Requirements
+
+Prerequisites:
+Google Cloud Platform account
+Places API enabled
+Billing configured
+Property Place IDs
+
+Rate Limits:
+1,000 free requests/day
+50 requests/second maximum
+
+Implementation Roadmap
+
+Phase 1: Basic Integration
+javascript
+// Backend implementation example
+app.get('/api/reviews/google', async (req, res) => {
+  const placeId = 'YOUR_PLACE_ID';
+  const response = await axios.get(
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${API_KEY}`
+  );
+  res.json(response.data.result.reviews);
+});
+
+Phase 2: Enhanced Features
+Review moderation queue
+Automated response system
+Sentiment analysis
+
+Maintenance Guide
+Environment Variables
+env
+# Backend .env
+HOSTAWAY_CLIENT_ID=your_client_id
+HOSTAWAY_SECRET=your_secret
+GOOGLE_API_KEY=your_key # For future integration

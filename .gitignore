@@ -1,0 +1,17 @@
+# .gitignore
+# Backend
+backend/.env
+backend/node_modules/
+backend/package-lock.json
+
+# Frontend
+frontend/node_modules/
+frontend/.env
+frontend/.next/
+frontend/out/
+frontend/build/
+
+# General
+.DS_Store
+.env.local
+*.env
